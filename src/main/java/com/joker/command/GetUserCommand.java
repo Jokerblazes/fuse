@@ -47,6 +47,12 @@ public class GetUserCommand extends FuseCommand<User> {
 //		}
 //
 //		/* success ... create UserAccount with data "from" the remote service response */
+		try {
+			Thread.sleep(60000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return new User(1, "Joker");
 	}
 	

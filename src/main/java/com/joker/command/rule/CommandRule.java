@@ -6,4 +6,6 @@ public interface CommandRule {
 	
 	public boolean successExecute();
 	
+	public boolean isPermission();
+	
 }

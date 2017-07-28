@@ -30,7 +30,7 @@ public class DefaultCommandRule implements CommandRule {
 		this.FAULT_RATE = this.fault_number / this.total_number;
 	}
 	
-	private boolean isPermission() {
+	public boolean isPermission() {
 		return this.PERMISSION_RATE < this.FAULT_RATE;
 	}
 	

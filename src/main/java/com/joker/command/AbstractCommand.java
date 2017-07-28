@@ -91,6 +91,7 @@ public abstract class AbstractCommand<R> {
 	//将command组装到Observable中
 	@SuppressWarnings("unchecked")
 	public Observable<R> toObservable() {
+		commandState.set(CommandState.OBSERVABLE_CHAIN_CREATED);
 		return (Observable<R>) Observable.create(new Observable.OnSubscribe() {
 			public void call(Subscriber subscriber) {
 				subscriber.onNext(doRun());

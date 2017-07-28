@@ -7,6 +7,8 @@ import com.joker.rx.Scheduler;
 import com.joker.rx.Subscription;
 import com.joker.rx.functions.Action0;
 
+import io.netty.util.concurrent.Future;
+
 public class JokerScheduler extends Scheduler {
 	private final ThreadPoolExecutor threadPool;
 	

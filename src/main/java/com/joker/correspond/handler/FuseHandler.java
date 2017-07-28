@@ -40,8 +40,8 @@ public class FuseHandler extends ChannelInboundHandlerAdapter {
 			FullHttpRequest req = (FullHttpRequest) msg;// 客户端的请求对象
 			@SuppressWarnings("rawtypes")
 			FuseCommand command = RequestFactory.requestToCommand(req);
-			Object object = AsyMethod(command);
-//			Object object = SynMethod(command);
+//			Object object = AsyMethod(command);
+			Object object = SynMethod(command);
 			JSONObject responseJson = new JSONObject();
 			responseJson.put("data", object);
 			ResponseJson(ctx, req, responseJson.toString());

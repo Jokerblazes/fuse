@@ -22,6 +22,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/joker/eclipse-workspace/fuse/lib/rx.jar"/>
+	<classpathentry kind="lib" path="/Users/joker/git/fuse/lib/rx.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
