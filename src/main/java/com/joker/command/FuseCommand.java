@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import com.joker.entity.CommandKey;
+import com.joker.rx.observer.Subscriber;
 
 
 public abstract class FuseCommand<R> extends AbstractCommand<R> {

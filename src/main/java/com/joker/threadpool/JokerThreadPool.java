@@ -73,7 +73,7 @@ public interface JokerThreadPool  {
 		}
 
 		public Scheduler getScheduler() {
-			return new JokerScheduler();
+			return new JokerScheduler(threadPool);
 		}
 		
 	}
