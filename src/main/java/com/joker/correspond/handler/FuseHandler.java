@@ -1,7 +1,11 @@
 package com.joker.correspond.handler;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 import com.alibaba.fastjson.JSONObject;
 import com.joker.command.FuseCommand;
+import com.joker.entity.User;
 import com.joker.request.RequestFactory;
 
 import io.netty.buffer.ByteBuf;
@@ -36,12 +40,23 @@ public class FuseHandler extends ChannelInboundHandlerAdapter {
 			FullHttpRequest req = (FullHttpRequest) msg;// 客户端的请求对象
 			@SuppressWarnings("rawtypes")
 			FuseCommand command = RequestFactory.requestToCommand(req);
-			Object object = command.execute();
+			Object object = AsyMethod(command);
+//			Object object = SynMethod(command);
 			JSONObject responseJson = new JSONObject();
 			responseJson.put("data", object);
 			ResponseJson(ctx, req, responseJson.toString());
 
 		}
+	}
+	
+	private Object AsyMethod(FuseCommand command) throws InterruptedException, ExecutionException {
+		Future<Object> future = command.queue();
+		Object object = future.get();
+		return object;
+	}
+	
+	private Object SynMethod(FuseCommand command) throws InterruptedException, ExecutionException {
+		return command.execute();
 	}
 	
 	private void ResponseJson(ChannelHandlerContext ctx, FullHttpRequest req ,String jsonStr) {

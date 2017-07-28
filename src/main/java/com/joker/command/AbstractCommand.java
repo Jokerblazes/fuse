@@ -8,6 +8,8 @@ import com.joker.command.rule.CommandRule;
 import com.joker.entity.CommandKey;
 import com.joker.rx.observer.Observable;
 import com.joker.rx.observer.Subscriber;
+import com.joker.threadpool.JokerThreadPool;
+import com.joker.threadpool.JokerThreadPool.Factory;
 import com.joker.threadpool.ThreadPoolFactory;
 import com.joker.util.Action;
 import com.joker.util.Func;
@@ -18,7 +20,7 @@ import com.joker.util.Obserbable;
 public abstract class AbstractCommand<R> {
 	protected AtomicReference<CommandState> commandState = new AtomicReference<CommandState>(CommandState.NOT_STARTED);
 	protected CommandRule commandRule;
-	protected ThreadPoolExecutor threadPool;
+	protected JokerThreadPool threadPool;
 	protected enum CommandState {
         NOT_STARTED, OBSERVABLE_CHAIN_CREATED, USER_CODE_EXECUTED, UNSUBSCRIBED, TERMINAL
     }
@@ -31,7 +33,8 @@ public abstract class AbstractCommand<R> {
 		CommandKey commandKey = new CommandKey();
 		commandKey.setKey(key);
 		commandKey.setRule_class(classes);
-		threadPool = ThreadPoolFactory.getPoolInstance(commandKey);
+//		threadPool = ThreadPoolFactory.getPoolInstance(commandKey);
+		threadPool = Factory.getInstance(commandKey);
 		this.commandState.set(CommandState.NOT_STARTED);
 		try {
 			this.commandRule = CommandRuleFactory.createCommandRule(commandKey);
@@ -90,10 +93,10 @@ public abstract class AbstractCommand<R> {
 	public Observable<R> toObservable() {
 		return (Observable<R>) Observable.create(new Observable.OnSubscribe() {
 			public void call(Subscriber subscriber) {
-				subscriber.onNext(this);
+				subscriber.onNext(doRun());
 				subscriber.onCompleted();
 			}
-		}).subscribeOn(new JokerScheduler(threadPool));
+		}).subscribeOn(new JokerScheduler((ThreadPoolExecutor) threadPool.geExecutorService()));
 	}
 	
 	

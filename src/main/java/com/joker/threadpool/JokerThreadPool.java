@@ -20,7 +20,7 @@ public interface JokerThreadPool  {
 	public static class Factory {
 		final static Map<String,JokerThreadPool> threadPools = new ConcurrentHashMap<String, JokerThreadPool>();
 		
-		static JokerThreadPool getInstance(CommandKey key) {
+		public static JokerThreadPool getInstance(CommandKey key) {
 			String key_name = key.getKey();
 			JokerThreadPool pool = threadPools.get(key_name);
 			if (pool != null)

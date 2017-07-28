@@ -22,8 +22,14 @@ public class JokerScheduler extends Scheduler {
 	private  class JokerWorker extends Worker {
 
 		@Override
-		public Subscription schedule(Action0 arg0) {
-			arg0.call();
+		public Subscription schedule(final Action0 arg0) {
+			Runnable runnable = new Runnable() {
+				
+				public void run() {
+					arg0.call();
+				}
+			};
+			threadPool.execute(runnable);
 			return null;
 		}
 
